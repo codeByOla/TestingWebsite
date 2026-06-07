@@ -123,5 +123,8 @@ LOGGING = {
 }
 
 SESSION_COOKIE_HTTPONLY = True
-CSRF_COOKIE_HTTPONLY = True
 X_FRAME_OPTIONS = 'DENY'
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://testingwebsite-3.onrender.com",
+]
