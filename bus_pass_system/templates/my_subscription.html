@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block content %}
+
+<a href="{% url 'dashboard' %}" class="btn btn-secondary mb-3">
+    <i class="bi bi-arrow-left-circle-fill"></i> Kthehu ne Panel
+</a>
+
+<h2 class="mb-4">Abonimi Im</h2>
+
+
+{% if subscription %}
+
+<div class="card shadow-lg p-4" style="background:#fdfdff; border:1px solid #c4c4c4a7; max-width:900px; width:100%; margin: 40px auto;">    <div class="row align-items-center">
+
+        <!-- LEFT SIDE -->
+<div class="col-md-3 text-center border-end">
+    <div class="mb-2">
+        <span style="font-size:0.85rem; color:#1e293b;">Muaji: <strong style="font-size:1.1rem;">{{ subscription.issue_date|date:"n" }}</strong></span>
+    </div>
+
+    {% if profile.photo %}
+        <img src="{{ profile.photo.url }}"
+             class="img-fluid rounded shadow-sm"
+             style="max-width:150px;">
+    {% else %}
+        <p class="text-danger">Nuk ka foto të ngarkuar</p>
+    {% endif %}
+
+    <div class="text-center mt-2">
+    <span style="font-size:0.68rem; font-weight:700; letter-spacing:0.10em; color:#94a3b8; text-transform:uppercase;">Abone Studenti</span>
+</div>
+</div>
+
+        <!-- CENTER -->
+        <div class="col-md-5 text-center">
+            <h3 class="fw-bold">
+                {{ profile.first_name }} {{ profile.last_name }}
+            </h3>
+
+            <p class="mb-1">
+                <strong>Universiteti:</strong> {{ profile.university.name }}
+            </p>
+
+            <p class="mb-1">
+                <strong>Data e lëshimit:</strong> {{ subscription.issue_date }}
+            </p>
+
+            <p class="mb-2">
+                <strong>Data e skadimit:</strong> {{ subscription.expiry_date }}
+            </p>
+
+            {% if subscription.expiry_date >= today %}
+                <span class="badge bg-success fs-6">ACTIVE</span>
+            {% else %}
+                <span class="badge bg-danger fs-6">EXPIRED</span>
+            {% endif %}
+        </div>
+
+<!-- RIGHT SIDE -->
+        <div class="col-md-4 text-center border-start">
+            <h5 class="mb-2">QR Code</h5>
+
+            {% if qr_image_b64 %}
+                <div id="qr-wrapper">
+                    <img id="qr-img"
+                         src="data:image/png;base64,{{ qr_image_b64 }}"
+                         class="img-fluid shadow-sm"
+                         style="max-width:200px;"
+                         alt="QR kod">
+                </div>
+
+                {% if not qr_is_static %}
+                    <div class="mt-2">
+                        <small class="text-muted">
+                            Rifresohet në:
+                            <span id="qr-countdown" class="fw-bold text-danger">60</span>s
+                        </small>
+                    </div>
+                    <div id="qr-refresh-msg" class="mt-1 text-warning d-none small">
+                        <i class="bi bi-arrow-clockwise"></i> Duke rifreskuar QR...
+                    </div>
+                {% else %}
+                    <div class="mt-2">
+            
+                    </div>
+                {% endif %}
+
+            {% else %}
+                <p class="text-warning small">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    QR nuk u gjenerua. Rifresko faqen.
+                </p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+{% else %}
+
+<p>Nuk keni abonim.</p>
+
+<a href="{% url 'apply_subscription' %}" class="btn btn-primary">
+    Apliko për Abonim
+</a>
+
+{% endif %}
+
+{% if qr_expires_iso and not qr_is_static %}
+<script>
+(function () {
+    const countdownEl = document.getElementById("qr-countdown");
+    const refreshMsg  = document.getElementById("qr-refresh-msg");
+    const qrImg       = document.getElementById("qr-img");
+
+    let expiresAt = new Date("{{ qr_expires_iso }}");
+    let refreshing = false;
+
+    function tick() {
+        const secsLeft = Math.ceil((expiresAt - Date.now()) / 1000);
+        if (secsLeft > 0) {
+            if (countdownEl) countdownEl.textContent = secsLeft;
+            setTimeout(tick, 500);
+        } else {
+            doRefresh();
+        }
+    }
+
+    function doRefresh() {
+        if (refreshing) return;
+        refreshing = true;
+        if (refreshMsg) refreshMsg.classList.remove("d-none");
+
+        fetch("{% url 'refresh_qr' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.qr_image_b64 && qrImg) {
+                qrImg.src = "data:image/png;base64," + data.qr_image_b64;
+                expiresAt  = new Date(data.expires_iso);
+                if (refreshMsg) refreshMsg.classList.add("d-none");
+                refreshing = false;
+                tick();
+            }
+        })
+        .catch(() => {
+            setTimeout(() => { window.location.reload(); }, 2000);
+        });
+    }
+
+    tick();
+})();
+</script>
+{% endif %}
+
+{% endblock %}

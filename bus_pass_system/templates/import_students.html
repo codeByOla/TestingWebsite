@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="mb-3">
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left-circle-fill"></i> Kthehu ne Panel
+        </a>
+    </div>
+
+    <div class="card p-4 shadow-sm">
+        <h2 class="mb-3"> <i class="bi bi-folder2-open me-2"></i> Importo Studentet (CSV)</h2>
+
+        <p class="text-muted">
+            Ngarko një skedar CSV që përmban të dhënat e studentëve. Sigurohu që formati i skedarit përputhet me strukturën e kërkuar.
+        </p>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                {{ form.file.label_tag }}
+                {{ form.file }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Ngarko Skedarin
+            </button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

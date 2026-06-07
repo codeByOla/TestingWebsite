@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Verifiko Abonim</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="uuid_token" placeholder="Vendos UUID nga QR" required>
+    <button type="submit">Verifiko</button>
+</form>
+
+{% if result %}
+
+    <hr>
+
+    {% if result == "VALID" %}
+        <h3 style="color:green;"><i class="bi bi-bookmark-check-fill text-success"></i>ABONIM VALID</h3>
+        <p>{{ student.first_name }} {{ student.last_name }}</p>
+        <img src="{{ student.photo.url }}" width="150">
+
+    {% elif result == "EXPIRED" %}
+        <h3 style="color:orange;"><i class="bi bi-exclamation-diamond-fill text-warning"></i>ABONIM I SKADUAR</h3>
+
+    {% else %}
+        <h3 style="color:red;"><i class="bi bi-x-octagon-fill text-danger"></i>ABONIM INVALID</h3>
+
+    {% endif %}
+
+{% endif %}
+
+{% endblock %}

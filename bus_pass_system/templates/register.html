@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+
+    <div class="auth-title">Regjistrim Studenti</div>
+
+    <form method="POST" enctype="multipart/form-data" class="auth-form">
+      {% csrf_token %}
+
+      <div>
+        <label>Emri i përdoruesit</label>
+        
+        {{ form.username }}
+        <div class="auth-error">{{ form.username.errors }}</div>
+      </div>
+
+      <div>
+        <label>Fjalëkalimi</label>
+        {{ form.password }}
+        <div class="auth-error">{{ form.password.errors }}</div>
+      </div>
+
+      <div>
+        <label>Konfirmo Fjalëkalimin</label>
+        {{ form.confirm_password }}
+        <div class="auth-error">{{ form.confirm_password.errors }}</div>
+      </div>
+
+      <div>
+        <label>Numri i Barcode</label>
+        <small>(Kodi unik i studentit nga karta studentore)</small>
+        {{ form.barcode }}
+        <div class="auth-error">{{ form.barcode.errors }}</div>
+      </div>
+
+      <div>
+        <label>Emri</label>
+        {{ form.first_name }}
+        <div class="auth-error">{{ form.first_name.errors }}</div>
+      </div>
+
+
+      <div>
+        <label>Mbiemri</label>
+        {{ form.last_name }}
+        <div class="auth-error">{{ form.last_name.errors }}</div>
+      </div>
+
+      <div>
+        <label>Universiteti</label>
+        {{ form.university }}
+        <div class="auth-error">{{ form.university.errors }}</div>
+      </div>
+
+      <div>
+<label>Foto personale</label>
+        {{ form.photo }}
+        <small class="text-muted d-block mt-1">
+            <i class="bi bi-exclamation-triangle-fill text-warning me-1"></i>
+            Fotografia duhet të jetë e juaja. Nëse fotografia nuk ju përfaqëson ju,
+            aboneja do të shpallet e pavlefshëme dhe aksesi do të pezullohet.
+            Format i pranuar: JPG ose PNG, maksimumi 2MB.
+        </small>
+        <div class="auth-error">{{ form.photo.errors }}</div>
+      </div>
+
+      <button type="submit" class="auth-button">Regjistrohu</button>
+
+    </form>
+
+  </div>
+</div>
+<script>
+  setTimeout(function() {
+    document.querySelectorAll('.auto-dismiss').forEach(function(alert) {
+      alert.style.transition = "opacity 0.5s ease";
+      alert.style.opacity = "0";
+      setTimeout(() => alert.remove(), 500);
+    });
+  }, 4000);
+</script>
+{% endblock %}

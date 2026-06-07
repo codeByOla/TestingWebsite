@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+  <div class="dashboard-header">
+    <div class="dashboard-title">
+      Paneli i Kontrolluesit
+    </div>
+    <a href="{% url 'logout' %}" class="logout-link">Dil</a>
+  </div>
+<div class="dashboard-wrapper">
+
+  <!-- ── Statistikat e sotme ── -->
+  <div class="stats-inline">
+    <div class="stat-card">
+      <h4>Skanimet totale</h4>
+      <p>{{ total_scans_today }}</p>
+    </div>
+    <div class="stat-card valid">
+      <h4>Të vlefshme</h4>
+      <p>{{ valid_today }}</p>
+    </div>
+    <div class="stat-card expired">
+      <h4>Të skaduara</h4>
+      <p>{{ expired_today }}</p>
+    </div>
+    <div class="stat-card invalid">
+      <h4>Të pavlefshme</h4>
+      <p>{{ invalid_today }}</p>
+    </div>
+    <div class="stat-card revoked">
+      <h4>Të revokuara</h4>
+      <p>{{ revoked_today }}</p>
+    </div>
+  </div>
+
+  <!-- ── Koha mesatare e verifikimit ── -->
+  {% if avg_verification_ms is not None %}
+  <div class="dashboard-section mt-3">
+    <h5><i class="bi bi-stopwatch me-2"></i>Koha mesatare e verifikimit (sesioni aktual)</h5>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h4>Mesatarja</h4>
+        <p>{{ avg_verification_ms }} ms</p>
+      </div>
+      <div class="stat-card">
+        <h4>Verifikime të matura</h4>
+        <p>{{ verification_count }}</p>
+      </div>
+    </div>
+    <small class="text-muted">
+      <i class="bi bi-info-circle me-1"></i>
+      Riset me rindezjen e serverit.
+    </small>
+  </div>
+  {% endif %}
+
+  <!-- ── Butonat kryesorë ── -->
+  <div class="action-large-container">
+    <a href="{% url 'verify_subscription' %}" class="stat-card action-large">
+      <h4>Fillo verifikimin e QR-së</h4>
+      <p><i class="bi bi-play-fill text-primary"></i></p>
+    </a>
+    <a href="{% url 'controller_logs' %}" class="stat-card action-large">
+      <h4>Historiku i skanimeve</h4>
+      <p><i class="bi bi-clipboard2-data-fill text-primary"></i></p>
+    </a>
+  </div>
+
+
+</div>
+{% endblock %}

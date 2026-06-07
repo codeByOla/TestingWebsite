@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>e-Abone</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/logo.png' %}">
+
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'img/logo.png' %}">
+
+    <link rel="apple-touch-icon" href="{% static 'img/logo.png' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+</head>
+<body>
+
+
+<div class="app-container">
+
+{% if messages %} 
+    <div class="container mt-3"> 
+        {% for message in messages %} 
+            {% if message.tags == 'error' %} 
+                <div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            {% elif message.tags == 'success' %} 
+                <div class="alert alert-success alert-dismissible fade show" role="alert"> 
+                    <i class="bi bi-check-circle-fill me-2"></i>
+            {% elif message.tags == 'warning' %} 
+                <div class="alert alert-warning alert-dismissible fade show" role="alert"> 
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            {% elif message.tags == 'info' %} 
+                <div class="alert alert-info alert-dismissible fade show" role="alert"> 
+                    <i class="bi bi-info-circle-fill me-2"></i>
+            {% else %} 
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"> 
+                    <i class="bi bi-bell-fill me-2"></i>
+            {% endif %} 
+                {{ message }} 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
+            </div> 
+        {% endfor %} 
+    </div> 
+{% endif %}
+
+{% block content %}
+{% endblock %}
+
+</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        const alerts = document.querySelectorAll('.alert');
+        
+        alerts.forEach(function(alert) {
+            
+            setTimeout(function() {
+               
+                let bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            }, 5000); 
+        });
+    });
+</script>
+</body>
+</html>

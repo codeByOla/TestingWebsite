@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+  <div class="dashboard-header">
+    <div class="dashboard-title">
+      Mirë se vini {{ request.user.username }}
+    </div>
+    <a href="{% url 'logout' %}" class="logout-link text-danger">Dil</a>
+  </div>
+
+    <div class="student-info-card">
+    <div class="student-info-row">
+      <div>
+        <h4>Emri i Studentit</h4>
+        <p>{{ request.user.studentprofile.first_name }}
+        {{ request.user.studentprofile.last_name }}</p>
+      </div>
+
+      <div>
+        <h4>Universiteti</h4>
+        <p>{{ request.user.studentprofile.university }}</p>
+      </div>
+
+      <div>
+        <h4>Barcode</h4>
+        <p>{{ request.user.studentprofile.barcode }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <a href="{% url 'apply_subscription' %}" class="stat-card">
+      <h4>Aplikoni për Abone</h4>
+      <p><i class="bi bi-box-arrow-in-down-right"></i></p>
+    </a>
+
+    <a href="{% url 'my_subscription' %}" class="stat-card">
+      <h4>Aboneja ime</h4>
+      <p><i class="bi bi-box-arrow-in-up-right text-primary"></i></p>
+    </a>
+  </div>
+
+</div>
+
+{% endblock %}

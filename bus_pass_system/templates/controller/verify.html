@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+  <!-- HEADER -->
+  <div class="dashboard-header">
+    <div class="dashboard-title">
+      Paneli i Verifikimit QR
+    </div>
+
+    <div class="dashboard-actions">
+      <a href="{% url 'controller_dashboard' %}" class="btn-primary">
+        <i class="bi bi-arrow-left-circle-fill me-2"></i> Kthehu ne Panel
+      </a>
+
+      <a href="{% url 'logout' %}" class="logout-link text-danger">
+        Dil
+      </a>
+    </div>
+  </div>
+
+  <!-- SCANNER SECTION -->
+  <div class="verification-container">
+
+    <!-- QR CAMERA -->
+    <div class="scanner-card">
+      <h3 class="section-title">Skanoni QR</h3>
+      <div id="reader" class="qr-reader"></div>
+    </div>
+
+    <!-- MANUAL VERIFY -->
+    <div class="verify-form-card" style="display:none;">
+      <h3 class="section-title"></h3>
+
+      <form method="post" class="auth-form">
+        {% csrf_token %}
+
+        <input
+          type="text"
+          id="uuid_token"
+          name="uuid_token"
+          placeholder="Vendos UUID ose skano QR"
+          required
+          autofocus
+        >
+
+        <small class="verify-help">
+          
+        </small>
+
+        <button type="submit" class="auth-button">
+          Verifiko
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- RESULT -->
+{% if result %}
+  <div class="result-card">
+
+    {% if result == "VALID" %}
+      <div class="result-valid">
+        <i class="bi bi-patch-check-fill"></i>
+        ABONIM I VLEFSHËM
+      </div>
+
+    {% elif result == "EXPIRED" %}
+      <div class="result-expired">
+        <i class="bi bi-exclamation-octagon-fill"></i>
+        ABONIM I SKADUAR
+      </div>
+
+    {% elif result == "REVOKED" %}
+      <div class="result-invalid">
+        <i class="bi bi-slash-circle-fill"></i>
+        ABONIMI ËSHTË REVOKUAR
+      </div>
+
+    {% elif sub_result == "ALREADY_USED_VALID" %}
+      <div class="result-invalid">
+        <i class="bi bi-x-octagon-fill"></i>
+        QR I PAVLEFSHËM
+      </div>
+      <div class="result-notification result-notification--warning">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        Kjo abone është përdorur tashmë
+      </div>
+
+    {% elif sub_result == "ALREADY_USED_EXPIRED" %}
+      <div class="result-invalid">
+        <i class="bi bi-x-octagon-fill"></i>
+        QR I PAVLEFSHËM
+      </div>
+      <div class="result-notification result-notification--danger">
+        <i class="bi bi-calendar-x-fill me-2"></i>
+        Aboneja e këtij studenti ka skaduar, studenti duhet të aplikojë për abone të këtij muaji
+      </div>
+
+    {% else %}
+      <div class="result-invalid">
+        <i class="bi bi-x-octagon-fill"></i>
+        QR I PAVLEFSHËM
+      </div>
+    {% endif %}
+
+    {% if student %}
+    <div class="result-info">
+      <p>
+        <strong>Studenti:</strong>
+        {{ student.first_name }} {{ student.last_name }}
+      </p>
+
+      <p>
+        <strong>Universiteti:</strong>
+        {{ student.university.name }}
+      </p>
+
+      <p>
+        <strong>Skadon:</strong>
+        {{ subscription.expiry_date }}
+      </p>
+    </div>
+    {% endif %}
+
+  </div>
+  {% endif %}
+
+  </div>
+
+<!-- QR SCRIPT -->
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script>
+let scanner;
+let scanned = false;
+
+function onScanSuccess(decodedText) {
+    if (scanned) return;
+    scanned = true;
+
+    const clean = decodedText.trim();
+
+    document.getElementById("uuid_token").value = clean;
+
+    if (scanner) scanner.clear();
+
+    document.querySelector(".auth-form").submit();
+}
+
+function onScanFailure(error) {}
+
+document.addEventListener("DOMContentLoaded", function () {
+    scanner = new Html5QrcodeScanner(
+        "reader",
+        { fps: 10, qrbox: 250 }
+    );
+    scanner.render(onScanSuccess, onScanFailure);
+});
+</script>
+
+{% endblock %}

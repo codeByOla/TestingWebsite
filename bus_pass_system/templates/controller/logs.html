@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+  <div class="dashboard-header">
+    <div class="dashboard-title">Historiku im i verifikimit</div>
+    <div class="dashboard-actions">
+      <a href="{% url 'controller_dashboard' %}" class="btn-primary">
+        <i class="bi bi-arrow-left-circle-fill me-2"></i> Kthehu ne Panel
+      </a>
+      <a href="{% url 'logout' %}" class="logout-link text-danger">Dil</a>
+    </div>
+  </div>
+
+  <div class="dashboard-section">
+    <table class="dashboard-table">
+      <tr>
+        <th>Student</th>
+        <th>Rezultati</th>
+        <th>Koha</th>
+      </tr>
+
+{% for log in logs %}
+      <tr>
+        <td>
+          {% if log.subscription %}
+            {{ log.subscription.student.first_name }}
+            {{ log.subscription.student.last_name }}
+          {% else %}
+            -
+          {% endif %}
+        </td>
+
+<td>
+  {% if log.result == "VALID" %}
+    <i class="bi bi-patch-check-fill text-success"></i> Valid
+  {% elif log.result == "EXPIRED" %}
+    <i class="bi bi-exclamation-octagon-fill text-warning"></i> Skaduar
+  {% elif log.sub_result == "ALREADY_USED_VALID" %}
+    <i class="bi bi-x-octagon-fill text-danger"></i> Invalid
+    <span class="badge bg-warning text-dark ms-1">Ri-skanim aktiv</span>
+  {% elif log.result == "REVOKED" %}
+    <i class="bi bi-slash-circle-fill text-danger"></i> Revokuar / I pezulluar
+  {% else %}
+    <i class="bi bi-x-octagon-fill text-danger"></i> Invalid
+  {% endif %}
+</td>
+
+        <td>{{ log.timestamp }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3">Nuk u gjetën regjistra verifikimi</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+</div>
+
+{% endblock %}

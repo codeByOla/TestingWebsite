@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+  <div class="main-wrapper">
+
+    <div class="badge-pill mb-5">
+      <i class="bi bi-bus-front-fill me-2"></i>SISTEMI I TRANSPORTIT STUDENTOR
+    </div>
+
+    <div class="logo-box mb-5" style="background:transparent; box-shadow:none;">
+      <img src="{% static 'img/logo.png' %}" alt="e-Abone Logo">
+    </div>
+
+<h1 class="display-title" style="color:#1e293b; margin-bottom: 60px;">Sistemi Dixhital i Abones së Autobusit</h1>
+    {% if user.is_authenticated %}
+      {% if user.role == "STUDENT" %}
+        <a href="{% url 'dashboard' %}" class="dashboard-btn">
+          <i class="bi bi-person-badge"></i> Paneli im
+        </a>
+      {% elif user.role == "ADMIN" %}
+        <a href="{% url 'admin_dashboard' %}" class="dashboard-btn">
+          <i class="bi bi-shield"></i> Paneli i Administratorit
+        </a>
+      {% elif user.role == "CONTROLLER" %}
+        <a href="{% url 'controller_dashboard' %}" class="dashboard-btn">
+          <i class="bi bi-eye"></i> Paneli i Kontrolluesit
+        </a>
+      {% endif %}
+    {% endif %}
+
+    <div class="login-grid">
+
+      <a href="{% url 'student_login' %}" class="login-card">
+        <div class="card-icon" style="background:#eef1fb;color:#1f3c88;">
+          <i class="bi bi-mortarboard-fill"></i>
+        </div>
+        <div class="card-label" style="color:#1f3c88;">Student</div>
+        <div class="card-desc">Regjistrohu & Merr abonen tende</div>
+        <span class="card-button" style="background:#1f3c88;">Hyr si Student</span>
+      </a>
+
+      <a href="{% url 'admin_login' %}" class="login-card">
+        <div class="card-icon" style="background:#fef2f2;color:#b91c1c;">
+          <i class="bi bi-shield-lock-fill"></i>
+        </div>
+        <div class="card-label" style="color:#b91c1c;">Administrator</div>
+        <div class="card-desc">Menaxho sistemin dhe studentet</div>
+        <span class="card-button" style="background:#b91c1c;">Hyr si Administrator</span>
+      </a>
+
+      <a href="{% url 'controller_login' %}" class="login-card">
+        <div class="card-icon" style="background:#fff7ed;color:#c2710c;">
+          <i class="bi bi-qr-code-scan"></i>
+        </div>
+        <div class="card-label" style="color:#c2710c;">Kontrollues</div>
+        <div class="card-desc">Verifiko dhe valido abonet e studenteve</div>
+        <span class="card-button" style="background:#c2710c;">Hyr si Kontrollues</span>
+      </a>
+
+    </div>
+
+    <footer>Sistemi i Transportit Studentor &middot; 2026 &middot; <i class="bi bi-circle-fill" style="font-size:0.4rem;color:#22c55e;vertical-align:middle;"></i> Aktiv 24/7</footer>
+
+  </div>
+
+{% endblock %}
+
+     

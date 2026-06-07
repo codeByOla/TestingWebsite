@@ -1,0 +1,389 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+  <div class="dashboard-header">
+    <div class="dashboard-title">Paneli i Administratorit</div>
+    <div class="dashboard-actions">
+      <a href="{% url 'import_students' %}" class="btn-primary">
+        <i class="bi bi-folder2-open me-2"></i> Importo CSV
+      </a>
+      <a href="{% url 'create_student' %}" class="btn-primary">
+        <i class="bi bi-person-plus me-2"></i>Shto Student
+      </a>
+      <a href="{% url 'logout' %}" class="logout-link text-danger">Dil</a>
+    </div>
+  </div>
+
+  <!-- Statuset e aboneve -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h4>Student me Abonet Aktive</h4>
+      <p>{{ active_subscriptions }}</p>
+    </div>
+    <div class="stat-card">
+      <h4>Studentet Pa Abone</h4>
+      <p>{{ expired_subscriptions }}</p>
+    </div>
+    <div class="stat-card">
+      <h4>Numri Total i Studenteve</h4>
+      <p>{{ total_students }}</p>
+    </div>
+  </div>
+
+  <!-- Analytics: sot -->
+{% comment %}
+  {% if analytics_total_today %}
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <h4>Skanime sot (total)</h4>
+        <p>{{ analytics_total_today }}</p>
+      </div>
+
+      <div class="stat-card">
+        <h4>Abone të vlefshme sot</h4>
+        <p class="text-success">
+          {{ analytics_valid_today }} ({{ valid_rate }}%)
+        </p>
+      </div>
+
+      <div class="stat-card">
+        <h4>Abone të pavlefshme sot</h4>
+        <p class="text-danger">
+          {{ analytics_invalid_today }} ({{ invalid_rate }}%)
+        </p>
+      </div>
+
+      <div class="stat-card">
+        <h4>Abone të skaduara sot</h4>
+        <p class="text-warning">
+          {{ analytics_expired_today }} ({{ expired_rate }}%)
+        </p>
+      </div>
+
+    </div>
+  {% endif %}
+{% endcomment %}
+
+  <!-- FILTER -->
+  <div class="dashboard-section">
+
+    <style>
+      .filter-form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        background: #ffffff;
+        padding: 18px;
+        border-radius: 14px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      }
+
+      .filter-form input,
+      .filter-form select {
+        min-width: 180px;
+        flex: 1;
+        padding: 10px 14px;
+        border: 1px solid #dcdcdc;
+        border-radius: 10px;
+        outline: none;
+        font-size: 15px;
+        transition: 0.2s ease;
+        background: #fff;
+      }
+
+      .filter-form input:focus,
+      .filter-form select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+      }
+
+      .filter-form .btn-primary,
+      .filter-form .btn-danger {
+        padding: 10px 18px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      @media (max-width: 768px) {
+        .filter-form {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .filter-form input,
+        .filter-form select,
+        .filter-form .btn-primary,
+        .filter-form .btn-danger {
+          width: 100%;
+        }
+      }
+    </style>
+
+    <form method="get" class="filter-form">
+
+      <input type="text" name="search" placeholder="Kerko student..." value="{{ request.GET.search }}">
+
+      <select name="university">
+        <option value="">Te gjitha universitetet</option>
+
+        {% for uni in universities %}
+        <option value="{{ uni.id }}" {% if request.GET.university == uni.id|stringformat:"s" %} selected {% endif %}>
+          {{ uni.name }}
+        </option>
+        {% endfor %}
+      </select>
+
+      <select name="status">
+        <option value="">Te gjitha statuset</option>
+
+        <option value="active" {% if request.GET.status == "active" %}selected{% endif %}>
+          Aktive
+        </option>
+
+        <option value="inactive" {% if request.GET.status == "inactive" %}selected{% endif %}>
+          Jo aktive
+        </option>
+      </select>
+
+      <select name="sort">
+        <option value="">Sorto</option>
+        <option value="first_name">Emri A-Z</option>
+        <option value="-first_name">Emri Z-A</option>
+        <option value="last_name">Mbiemri A-Z</option>
+        <option value="-last_name">Mbiemri Z-A</option>
+      </select>
+
+      <button type="submit" class="btn-primary">
+        Filtro
+      </button>
+
+      <a href="{% url 'admin_dashboard' %}" class="btn-danger">
+        Pastro
+      </a>
+
+    </form>
+
+  </div>
+
+  <!-- Tabela e studenteve -->
+  <div class="dashboard-section">
+    <h3>Students</h3>
+    <div class="table-wrapper">
+
+      <table class="dashboard-table">
+        <tr>
+          <th>Regjistrimet</th>
+          <th>Abonimet</th>
+          <th>Emri</th>
+          <th>Mbiemri</th>
+          <th>Universiteti</th>
+          <th>Barcode</th>
+          <th>Emri i përdoruesit</th>
+          <!-- ADDED: Revocation status column -->
+          <th>Statusi</th>
+          <th>Veprimet</th>
+        </tr>
+
+        {% for student in page_obj %}
+        <tr>
+          <td>
+            {% if student.user %}
+            <i class="bi bi-check-circle text-success"></i>
+            {% else %}
+            <i class="bi bi-x-circle-fill text-danger"></i>
+            {% endif %}
+          </td>
+          <td>
+            {% if student.has_active_subscription %}
+            <i class="bi bi-toggle-on text-success"></i> Aktive
+            {% else %}
+            <i class="bi bi-toggle2-off text-danger"></i> Jo-Aktive
+            {% endif %}
+          </td>
+          <td>{{ student.first_name }}</td>
+          <td>{{ student.last_name }}</td>
+          <td>{{ student.university.name }}</td>
+          <td>{{ student.barcode }}</td>
+          <td>
+            {% if student.user %}
+            {{ student.user.username }}
+            {% else %}-{% endif %}
+          </td>
+          <!-- ADDED: Show revocation badge -->
+          <td>
+            {% if student.is_revoked %}
+            <span class="badge bg-danger">Revokuar/<br>Pezulluar</span>
+            {% else %}
+            <span class="badge bg-success">Aktiv</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'update_student' student.id %}" class="btn-primary">Modifiko</a>
+            <a href="{% url 'delete_student' student.id %}" class="btn-danger">Fshij</a>
+
+            <!-- ADDED: Revoke / Restore button with POST form and CSRF -->
+            {% if student.is_revoked %}
+            <form method="post" action="{% url 'restore_student' student.id %}" style="display:inline;"
+              onsubmit="return confirm('Je i sigurt që dëshiron ta rikthesh aksesin e këtij studenti?')">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-success btn-sm ms-1">
+                <i class="bi bi-arrow-counterclockwise"></i> Rikthe
+              </button>
+            </form>
+            {% else %}
+            <form method="post" action="{% url 'revoke_student' student.id %}" style="display:inline;"
+              onsubmit="return confirm('Je i sigurt që dëshiron ta revokosh aksesin e këtij studenti?')">
+              {% csrf_token %}
+              <input type="text" name="reason" placeholder="Arsyeja (opsionale)"
+                class="form-control form-control-sm d-inline" style="width:160px;">
+              <button type="submit" class="btn btn-warning btn-sm ms-1">
+                <i class="bi bi-slash-circle"></i> Revoko/Pezullo 
+              </button>
+            </form>
+            {% endif %}
+
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      <div class="pagination-wrapper mt-3">
+
+        {% if page_obj.has_previous %}
+        <a href="?page=1" class="btn btn-sm btn-outline-primary">« Pare</a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-sm btn-outline-primary">‹ Mbrapa</a>
+        {% endif %}
+
+        <span class="mx-2">
+          Faqja {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-sm btn-outline-primary">Tjetra ›</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-sm btn-outline-primary">Fund »</a>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Peak Hours -->
+  {% if peak_hours %}
+  <div class="dashboard-section">
+    <h3><i class="bi bi-clock-history me-2"></i>Orët me trafikun më të lartë (7 ditë)</h3>
+    <div class="table-wrapper">
+      <table class="dashboard-table">
+        <tr>
+          <th>Ora</th>
+          <th>Të vlefshme</th>
+          <th>Të pavlefshme</th>
+          <th>Të skaduara</th>
+        </tr>
+        {% for r in peak_hours %}
+        <tr>
+          <td>{{ r.hour }}:00 – {{ r.hour }}:59</td>
+          <td class="text-success">{{ r.total_valid|default:0 }}</td>
+          <td class="text-danger">{{ r.total_invalid|default:0 }}</td>
+          <td class="text-warning">{{ r.total_expired|default:0 }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+
+    </div>
+  </div>
+  {% endif %}
+
+ <!-- Abuse Detection -->
+  {% if abuse_details %}
+  <div class="dashboard-section">
+    <h3><i class="bi bi-shield-exclamation me-2 text-danger"></i>Monitorim i Tentativave të Abuzimeve (7 ditë)</h3>
+    <div class="table-wrapper">
+<table class="dashboard-table">
+  <tr>
+    <th>Data</th>
+    <th>
+      <i class="bi bi-arrow-repeat text-warning me-1"></i>
+      Ri-skanim (abone aktive)
+    </th>
+    <th>
+      <i class="bi bi-x-octagon text-danger me-1"></i>
+      Invalid i thjeshtë
+    </th>
+    <th>Total i dyshimtë</th>
+  </tr>
+  {% for r in abuse_details %}
+  <tr>
+    <td>{{ r.date }}</td>
+    <td>
+      {% if r.reused_valid > 5 %}
+        <span class="text-danger fw-bold">
+          <i class="bi bi-exclamation-triangle-fill"></i> {{ r.reused_valid }}
+        </span>
+      {% else %}
+        <span class="text-warning">{{ r.reused_valid }}</span>
+      {% endif %}
+    </td>
+    <td>
+      {% if r.pure_invalid > 10 %}
+        <span class="text-danger fw-bold">
+          <i class="bi bi-exclamation-triangle-fill"></i> {{ r.pure_invalid }}
+        </span>
+      {% else %}
+        {{ r.pure_invalid }}
+      {% endif %}
+    </td>
+    <td>
+      {% if r.total_suspicious > 20 %}
+        <span class="badge bg-danger">
+          <i class="bi bi-exclamation-triangle-fill"></i> {{ r.total_suspicious }}
+        </span>
+      {% elif r.total_suspicious > 10 %}
+        <span class="badge bg-warning text-dark">{{ r.total_suspicious }}</span>
+      {% else %}
+        <span class="badge bg-secondary">{{ r.total_suspicious }}</span>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<small class="text-muted mt-2 d-block">
+  <i class="bi bi-info-circle me-1"></i>
+  <strong>Ri-skanim (abone aktive)</strong>: QR i njëjtë i skanuar disaherë, sinjal i mundshëm i ndarjes së abones ose përpjekje për abuzim.
+  <strong>Invalid i thjeshtë</strong>: QR kod i panjohur, aktiv dikur ose i falsifikuar.
+</small>
+  </div>
+  {% endif %}
+
+  <!-- University Distribution -->
+  {% if university_stats %}
+  <div class="dashboard-section">
+    <h3><i class="bi bi-building me-2"></i>Aktiviteti sipas Universitetit (30 ditë)</h3>
+    <div class="table-wrapper">
+      <table class="dashboard-table">
+        <tr>
+          <th>Universiteti</th>
+          <th>Të vlefshme</th>
+          <th>Të pavlefshme</th>
+          <th>Të skaduara</th>
+        </tr>
+        {% for r in university_stats %}
+        <tr>
+          <td>{{ r.university__name }}</td>
+          <td class="text-success">{{ r.total_valid|default:0 }}</td>
+          <td class="text-danger">{{ r.total_invalid|default:0 }}</td>
+          <td class="text-warning">{{ r.total_expired|default:0 }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

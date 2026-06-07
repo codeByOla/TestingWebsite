@@ -1,0 +1,933 @@
+/* --------------------------------Variablat------------------------------------*/
+
+:root {
+  --primary: #1f3c88;
+  --primary-light: #3d5faf;
+  --bg: #f9fafb;
+  --card-bg: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --radius: 12px;
+}
+
+
+/* -----------------------------------Layouti global------------------------------------*/
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.app-container{
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+.main-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+footer {
+  margin-top: 90px;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+footer::before,
+footer::after {
+  content: '';
+  display: inline-block;
+  width: 30px;
+  height: 1px;
+  background: #cbd5e1;
+}
+
+/* --------------------------------------------Home Page---------------------------------------------- */
+
+.brand-icon {
+  width: 72px;
+  height: 70px;
+  background: var(--white);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.9rem;
+  color: #fff;
+  margin-bottom: 28px;
+  box-shadow: 0 4px 18px rgba(27, 58, 136, 0.18);
+}
+
+.display-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 56px;
+}
+
+.dashboard-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 48px;
+  transition: background 0.2s ease;
+}
+
+.dashboard-btn:hover {
+  background: var(--primary-light);
+  color: #fff;
+}
+
+.login-grid {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 42px;
+  flex-wrap: wrap;
+}
+
+.login-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 32px 36px;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text);
+  transition: box-shadow 0.22s ease, transform 0.22s ease, border-color 0.22s ease;
+}
+
+.login-card:hover {
+  box-shadow: 0 10px 28px rgba(31,60,136,0.1);
+  transform: translateY(-5px);
+  border-color: #c5d0e8;
+}
+
+.card-icon {
+  width: 56px;
+  height: 56px;
+  background: #eef1fb;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.55rem;
+  color: var(--primary);
+  margin-bottom: 18px;
+  transition: background 0.2s ease;
+}
+
+.login-card:hover .card-icon {
+  background: #dde4f5;
+}
+
+.card-label {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.card-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.card-button {
+  display: inline-block;
+  width: 100%;
+  padding: 11px 0;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: background 0.2s ease;
+  margin-top: auto;
+}
+
+.card-button {
+  text-decoration: none;
+  color: #fff;
+}
+
+.card-button:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
+.card-button:hover {
+  background: var(--primary-light);
+  color: #fff;
+}
+
+
+/* --------------------------------Login dhe register--------------------------------- */
+
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 40px 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card-bg);
+  padding: 40px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+
+.auth-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-form{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.auth-form input,
+.auth-form select,
+.auth-form textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-form input:focus,
+.auth-form select:focus,
+.auth-form textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(31,60,136,0.1);
+}
+
+.auth-button{
+  padding:11px;
+  border:none;
+  background:#1f3c88;
+  color:white;
+  border-radius:6px;
+  font-weight:600;
+}
+
+.auth-button:hover {
+  background: var(--primary-light);
+}
+
+.auth-link {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 0.85rem;
+}
+
+.auth-link a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+.auth-error {
+  font-size: 0.8rem;
+  color: #dc2626;
+}
+
+.auth-messages {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #dc2626;
+  text-align: center;
+}
+
+
+/* -------------------------------------Dashboard---------------------------- */
+
+.dashboard-wrapper {
+  padding: 30px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.dashboard-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.dashboard-title{
+  font-size:24px;
+  font-weight:700;
+  color:var(--primary);
+}
+
+.dashboard-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.logout-link{
+  color:#dc3545;
+  text-decoration:none;
+  font-weight:500;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  margin-bottom:25px;
+}
+
+.stat-card{
+  background:white;
+  border-radius:12px;
+  padding:24px;
+  transition:transform .2s ease, box-shadow .2s ease;
+  box-shadow:0 3px 10px rgba(0,0,0,0.06);
+  text-align:center;
+  text-decoration:none;
+  color:#1e293b;
+}
+
+.stat-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.stat-card h4{
+  font-size:15px;
+  margin-bottom:10px;
+}
+
+.stat-card p{
+  font-size:26px;
+  font-weight:700;
+}
+
+.dashboard-section{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.05);
+  overflow-x:auto;
+}
+
+.dashboard-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: var(--primary);
+}
+
+.dashboard-table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:850px;
+}
+
+.dashboard-table th,
+.dashboard-table td{
+  padding:12px;
+  border-bottom:1px solid #e5e7eb;
+  text-align:left;
+}
+
+.dashboard-table th {
+  background: #f1f5f9;
+  font-weight: 600;
+}
+
+.dashboard-table tr:hover {
+  background: #f8fafc;
+}
+
+.btn-primary,
+.btn-danger{
+  padding:9px 16px;
+  border-radius:8px;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:500;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.btn-primary{
+  background:#1f3c88;
+  color:white;
+}
+
+.btn-danger{
+  background:#dc3545;
+  color:white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-light);
+}
+
+.logout-link {
+  text-decoration: none;
+  color: #dc2626;
+  font-weight: 500;
+}
+
+
+/* --------------------------------------------Student page-------------------------- */
+
+.student-info-card{
+  background:white;
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:25px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.05);
+}
+
+.student-info-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.student-info-row h4 {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.student-info-row p {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.application-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 35px;
+  text-align: center;
+  max-width: 600px;
+}
+
+.application-card h3 {
+  font-size: 1.3rem;
+  color: var(--primary);
+  margin-bottom: 15px;
+}
+
+.application-desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.application-card .auth-button {
+  width: 100%;
+  max-width: 300px;
+}
+
+
+/* ----------------------Faqja e verifikimit-------------------------------------*/
+
+
+.verification-container{
+  display: grid;
+  grid-template-columns: 500px;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.scanner-card,
+.verify-form-card{
+  background:white;
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.05);
+  width:100%;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:15px;
+  color:var(--primary);
+}
+
+.qr-reader{
+  width:100%;
+  max-width:100%;
+  margin:auto;
+  overflow:hidden;
+}
+
+.verify-help{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.result-card{
+  background:white;
+  border-radius:12px;
+  padding:25px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.05);
+  text-align:center;
+}
+
+.result-valid{
+  font-size:22px;
+  font-weight:700;
+  color:#16a34a;
+  margin-bottom:15px;
+}
+
+.result-expired{
+  font-size:22px;
+  font-weight:700;
+  color:#f59e0b;
+  margin-bottom:15px;
+}
+
+.result-invalid{
+  font-size:22px;
+  font-weight:700;
+  color:#dc2626;
+  margin-bottom:15px;
+}
+
+.result-info{
+  margin-top:15px;
+  font-size:15px;
+  line-height:1.6;
+}
+
+
+/*------------------------------------Klasa ndihmese -----------------------------------------*/
+
+.card {
+  border-radius: 15px;
+}
+
+.table-wrapper{
+  width:100%;
+  overflow-x:auto;
+}
+
+.dashboard-actions a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:38px;
+}
+
+
+/* HTML5 QR FIX */
+
+#reader{
+  width:100% !important;
+}
+
+#reader video{
+  width:100% !important;
+  height:auto !important;
+  border-radius:10px;
+}
+
+#reader canvas{
+  width:100% !important;
+  height:auto !important;
+}
+
+#reader img{
+  max-width:100% !important;
+}
+
+#reader button{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+}
+
+
+/*------------------------Responsive----------------------------------------------------*/
+
+@media (max-width:900px){
+
+.stats-grid{
+  grid-template-columns:repeat(2,1fr);
+}
+
+.verification-container{
+  grid-template-columns:1fr;
+}
+
+.qr-reader{
+  max-width:320px;
+}
+
+}
+
+@media (max-width:768px){
+
+.app-container{
+  padding:15px;
+}
+
+.login-grid{
+  flex-direction:column;
+  align-items:center;
+}
+
+.login-card{
+  width:100%;
+  max-width:320px;
+}
+
+.display-title{
+  font-size:1.7rem;
+}
+
+.dashboard-header{
+  flex-direction:column;
+  align-items:flex-start;
+}
+
+.dashboard-actions{
+  width:100%;
+}
+
+.dashboard-actions a{
+  width:100%;
+  text-align:center;
+  justify-content:center;
+}
+
+.student-info-row{
+  grid-template-columns:1fr;
+}
+
+.border-end,
+.border-start{
+  border:none !important;
+}
+
+.dashboard-wrapper{
+  padding:15px;
+}
+
+.verification-container{
+  grid-template-columns:1fr;
+}
+
+}
+
+@media (max-width:500px){
+
+.stats-grid{
+  grid-template-columns:1fr;
+}
+
+.display-title{
+  font-size:1.5rem;
+}
+
+.brand-icon{
+  width:55px;
+  height:55px;
+}
+
+}
+
+
+
+.alert {
+    border-radius: 12px;
+    font-weight: 500;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/*------------------------Filter Admin----------------------------*/
+.filter-form{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  align-items:center;
+  background:#ffffff;
+  padding:18px;
+  border-radius:14px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.06);
+}
+
+.filter-form input,
+.filter-form select{
+  min-width:180px;
+  flex:1;
+  padding:10px 14px;
+  border:1px solid #dcdcdc;
+  border-radius:10px;
+  outline:none;
+  font-size:15px;
+  transition:0.2s ease;
+  background:#fff;
+}
+
+.filter-form input:focus,
+.filter-form select:focus{
+  border-color:#0d6efd;
+  box-shadow:0 0 0 3px rgba(13,110,253,0.12);
+}
+
+.filter-form .btn-primary,
+.filter-form .btn-danger{
+  padding:10px 18px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:600;
+  white-space:nowrap;
+}
+
+@media (max-width:768px){
+
+  .filter-form{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .filter-form input,
+  .filter-form select,
+  .filter-form .btn-primary,
+  .filter-form .btn-danger{
+    width:100%;
+  }
+
+}
+
+
+/* Vendose në styles.css */
+
+.brand-logo{
+    width:78px;
+    height:78px;
+    object-fit:contain;
+
+    padding:0px;
+    transition:0.3s;
+}
+
+.brand-logo:hover{
+    transform:scale(1.05);
+}
+
+
+
+
+/* Renditja e 5 statistikave në një rresht */
+.stats-inline {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* Stilimi bazë i kartave të statistikave dhe ngjyrat */
+.stat-card {
+    text-align: center;
+    padding: 20px;
+    background: #fff; /* Sigurohemi që sfondi është i bardhë */
+    border-radius: 8px; /* Ose sa e kishit stilin origjinal */
+}
+
+/* Ngjyrat specifike me border lart */
+.stat-card.valid { border-top: 4px solid #28a745 !important; }
+.stat-card.expired { border-top: 4px solid #ffc107 !important; }
+.stat-card.invalid { border-top: 4px solid #dc3545 !important; }
+.stat-card.revoked { border-top: 4px solid #6c757d !important; }
+
+/* Container-i për dy butonat e mëdhenj */
+.action-large-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Madhësia e shtuar për butonat kryesorë */
+.action-large {
+    padding: 40px 20px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.action-large i {
+    font-size: 2.5rem; /* Pak më e madhe se më parë */
+    margin-top: 10px;
+}
+
+/* Rregullim për ekranet e mesme dhe të vogla */
+@media (max-width: 992px) {
+    .stats-inline {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-inline {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .action-large-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* Shto këto në styles.css nëse dëshiron ngjyra specifike për ikonat */
+.bi-pencil-square {
+    color: #28a745; /* Jeshile për aplikimin */
+}
+
+.bi-card-checklist {
+    color: #007bff; /* Blu për abonene */
+}
+
+/* Ky është blloku që kemi bërë bashkë, sigurohu që është aty */
+.action-large-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.action-large {
+    padding: 40px 20px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.action-large:hover {
+    transform: translateY(-3px);
+}
+
+
+
+.result-notification {
+  margin-top: 12px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.result-notification--warning {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffc107;
+}
+
+.result-notification--danger {
+  background: #f8d7da;
+  color: #842029;
+  border: 1px solid #dc3545;
+}
+.logo-box {
+    width: 110px;
+    height: 110px;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s ease;
+    overflow: hidden;
+  }
+
+  .logo-box:hover {
+    transform: translateY(-3px);
+  }
+
+  .logo-box img {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+  }
+
+@media (max-width: 768px) {
+  .border-end {
+    border: none !important;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
+}

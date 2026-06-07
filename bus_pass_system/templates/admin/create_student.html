@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="mb-3">
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left-circle-fill"></i> Kthehu ne Panel
+        </a>
+    </div>
+
+    <div class="card p-4 shadow-sm">
+
+        <h2 class="mb-4">
+            <i class="bi bi-person-plus me-2"></i>
+            Shto Studentin
+        </h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label class="form-label">Emri:</label>
+        {{ form.first_name }}
+        {% if form.first_name.errors %}
+            <div class="auth-error text-danger mt-1">
+                {% for error in form.first_name.errors %}
+                    <i class="bi bi-dot"></i> {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Mbiemri:</label>
+        {{ form.last_name }}
+        {% if form.last_name.errors %}
+            <div class="auth-error text-danger mt-1">
+                {% for error in form.last_name.errors %}
+                    <i class="bi bi-dot"></i> {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Kodi i kartës së studentit (Barcode):</label>
+        {{ form.barcode }}
+        {% if form.barcode.errors %}
+            <div class="auth-error text-danger mt-1">
+                {% for error in form.barcode.errors %}
+                    <i class="bi bi-dot"></i> {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Universiteti:</label>
+        {{ form.university }}
+        {% if form.university.errors %}
+            <div class="auth-error text-danger mt-1">
+                {% for error in form.university.errors %}
+                    <i class="bi bi-dot"></i> {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-check-circle me-1"></i> Save Student
+        </button>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-secondary ms-2">
+            Cancel
+        </a>
+    </div>
+</form>
+
+    </div>
+
+</div>
+
+{% endblock %}

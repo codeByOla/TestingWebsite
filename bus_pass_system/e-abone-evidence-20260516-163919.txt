@@ -1,0 +1,67 @@
+════════════════════════════════════════════════════════════
+  e-Abone — RAPORT METRIKASH
+════════════════════════════════════════════════════════════
+  Gjeneruar                             : 2026-05-16T16:39:19.161396+00:00
+  Periudha                              : 30 ditët e fundit
+  Sistemi                               : e-Abone Bus Pass System
+════════════════════════════════════════════════════════════
+
+  H1 — VERIFIKIMI NË KOHË REALE
+  ─────────────────────────────────────────────
+  Total skanime                         : 256
+  Të vlefshme  (VALID)                  : 57  →  22.3% e totalit
+  Të skaduara  (EXPIRED)                : 46
+  Të pavlefshme (INVALID)               : 144
+  Të revookuara (REVOKED)               : 9
+
+  H2 — AUTOMATIZIMI I PROCESIT
+  ─────────────────────────────────────────────
+  Total studentë                        : 173
+  Importuar me CSV                      : 129
+  Të vetë-regjistruar                   : 44
+
+  Abonime të krijuara                   : 31
+  QR të gjeneruara auto                 : 31
+
+  ★ Shkalla e automatizimit             : 100.0%
+
+  ✔  100% e abonimeve të aprovuara u krijuan automatikisht dhe u pajisën me QR pa asnjë ndërhyrje manuale.
+
+  H3 — DETEKTIMI I ABUZIMEVE
+  ─────────────────────────────────────────────
+  Total verifikime                      : 256
+  Replay attacks                        : 29
+  QR të panjohura (falsifikim)          : 115
+  Tentativa profil revokuar             : 9
+  Total abuzime të detektuara           : 153
+  Shkalla e abuzimit                    : 59.77%
+
+  Controllers me invalid të lartë:
+    Kontrolluesi           → 144
+
+  H4 — AUDIT TRAIL & GJURMUESHMËRIA
+  ─────────────────────────────────────────────
+  Log verifikimesh (total)              : 283
+  Log autentikimi (total)               : 18
+
+  Breakdown rezultatesh:
+    EXPIRED                   → 50
+    INVALID                   → 148
+    REVOKED                   → 9
+    VALID                     → 76
+
+  Breakdown sub-rezultatesh:
+    INVALID                   → 190
+    ALREADY_USED_VALID        → 29
+    VALID                     → 29
+    EXPIRED                   → 24
+    REVOKED                   → 6
+    ALREADY_USED_EXPIRED      → 5
+
+  Controllers aktivë:
+    Kontrolluesi           → 283 skanime
+
+════════════════════════════════════════════════════════════
+  FUND I RAPORTIT
+════════════════════════════════════════════════════════════
+

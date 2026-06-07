@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h2 class="dashboard-title">Aplikim për Abone Studenti</h2>
+    <a href="{% url 'dashboard' %}" class="btn-primary">
+      <i class="bi bi-arrow-left-circle-fill"></i> Kthehu në Panel
+    </a>
+  </div>
+
+  <!-- Student Info Card -->
+  <div class="student-info-card">
+    <div class="student-info-row">
+      <div>
+        <h4>Emri i Studentit</h4>
+        <p>{{ request.user.studentprofile.first_name }}
+        {{ request.user.studentprofile.last_name }}</p>
+      </div>
+
+      <div>
+        <h4>Universiteti</h4>
+        <p>{{ request.user.studentprofile.university }}</p>
+      </div>
+
+      <div>
+        <h4>Barkodi</h4>
+        <p>{{ request.user.studentprofile.barcode }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Card -->
+  <div class="application-card">
+    <h3>Konfirmo Aplikimin</h3>
+    <p class="application-desc">
+      Duke konfirmuar aplikimin, ju pranoni që të dhënat tuaja janë të sakta
+      dhe do të dërgohen për verifikim nga administrata.
+    </p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="auth-button">
+        <i class="bi bi-check-circle-fill"></i> Konfirmo Aplikimin
+      </button>
+    </form>
+  </div>
+
+</div>
+
+{% endblock %}

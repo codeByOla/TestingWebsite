@@ -1,0 +1,76 @@
+══════════════════════════════════════════════════════════════
+  e-Abone — RAPORT METRIKASH
+══════════════════════════════════════════════════════════════
+  Gjeneruar                             : 2026-06-06T15:40:26.390038+00:00
+  Periudha                              : 30 ditët e fundit
+  Sistemi                               : e-Abone Bus Pass System
+══════════════════════════════════════════════════════════════
+
+  H1 — VERIFIKIMI NË KOHË REALE
+  ──────────────────────────────────────────────────
+  Total skanime                         : 59
+  Të vlefshme  (VALID)                  : 22  →  37.3% e totalit
+  Të skaduara  (EXPIRED)                : 15
+  Të pavlefshme (INVALID)               : 21
+  Të revookuara (REVOKED)               : 1
+
+  Kohët e verifikimit (nga DB):
+    Verifikim QR                        : avg 29.69 ms  |  min 11.91 ms  |  max 411.11 ms  |  49 matje
+
+  H2 — AUTOMATIZIMI I PROCESIT
+  ──────────────────────────────────────────────────
+  Total studentë                        : 174
+  Importuar me CSV                      : 129
+  Të vetë-regjistruar                   : 45
+
+  Abonime të krijuara                   : 25
+  QR të gjeneruara auto                 : 25
+
+  ★ Shkalla e automatizimit             : 100.0%
+
+  ✔  100% e abonimeve të aprovuara u krijuan automatikisht dhe u pajisën me QR pa asnjë ndërhyrje manuale.
+
+  Kohët e operacioneve (nga DB):
+    Krijimi i abonimit                  : avg 42.02 ms  |  min 40.31 ms  |  max 43.72 ms  |  2 matje
+    Gjenerimi i QR                      : avg 25.11 ms  |  min 24.25 ms  |  max 25.98 ms  |  2 matje
+    Importi CSV                         : avg 291.06 ms  |  min 291.06 ms  |  max 291.06 ms  |  1 matje
+    Shtimi manual i studentit           : avg 6.85 ms  |  min 6.85 ms  |  max 6.85 ms  |  1 matje
+
+  H3 — DETEKTIMI I ABUZIMEVE
+  ──────────────────────────────────────────────────
+  Total verifikime                      : 59
+  Replay attacks                        : 13
+  QR të panjohura (falsifikim)          : 8
+  Tentativa profil revokuar             : 1
+  Total abuzime të detektuara           : 22
+  Shkalla e abuzimit                    : 37.29%
+
+  Controllers me invalid të lartë:
+    Kontrolluesi             → 21
+
+  H4 — AUDIT TRAIL & GJURMUESHMËRIA
+  ──────────────────────────────────────────────────
+  Log verifikimesh (total)              : 291
+  Log autentikimi (total)               : 18
+
+  Breakdown rezultatesh:
+    EXPIRED                   → 52
+    INVALID                   → 150
+    REVOKED                   → 10
+    VALID                     → 79
+
+  Breakdown sub-rezultatesh:
+    INVALID                   → 192
+    VALID                     → 32
+    ALREADY_USED_VALID        → 29
+    EXPIRED                   → 26
+    REVOKED                   → 7
+    ALREADY_USED_EXPIRED      → 5
+
+  Controllers aktivë:
+    Kontrolluesi             → 291 skanime
+
+══════════════════════════════════════════════════════════════
+  FUND I RAPORTIT
+══════════════════════════════════════════════════════════════
+
