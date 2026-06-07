@@ -19,7 +19,11 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "fallback-key-for-dev")
 
 DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "testingwebsite-3.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
