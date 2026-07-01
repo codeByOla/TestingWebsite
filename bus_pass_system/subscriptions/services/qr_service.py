@@ -46,7 +46,7 @@ def get_or_create_active_token(subscription) -> TemporaryQRToken:
 
         active = (
             TemporaryQRToken.objects
-            .select_for_update()
+            .select_for_update(of=("self",))
             .filter(
                 subscription=subscription,
                 is_used=False,

@@ -96,7 +96,7 @@ def verify_token(
 
             qr_token = (
                 TemporaryQRToken.objects
-                .select_for_update()
+                .select_for_update(of=("self",))
                 .select_related(
                     'subscription__student__university',
                     'subscription__student__user',
