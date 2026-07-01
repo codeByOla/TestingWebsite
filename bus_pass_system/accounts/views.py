@@ -86,7 +86,6 @@ def controller_login(request):
 # ---------------------------------------------------------------------------
 # Registration
 # ---------------------------------------------------------------------------
-
 def register_student(request):
     if request.method == "POST":
         form = StudentRegisterForm(request.POST, request.FILES)
@@ -97,14 +96,9 @@ def register_student(request):
             photo = form.cleaned_data["photo"]
 
             try:
-                profile = StudentProfile.objects.select_for_update().get(barcode=barcode)
-            except StudentProfile.DoesNotExist:
-                logger.warning("U përpoq të regjistrohesha pa barkod: %s", barcode)
-                messages.error(request, "Barcode i pavlefshëm.")
-                return render(request, "register.html", {"form": form})
-
-            try:
                 with transaction.atomic():
+                    profile = StudentProfile.objects.select_for_update().get(barcode=barcode)
+
                     if profile.user is not None:
                         messages.error(request, "Ky barcode është tashmë i regjistruar.")
                         return render(request, "register.html", {"form": form})
@@ -131,6 +125,11 @@ def register_student(request):
                     profile.photo.save(file_name, ContentFile(buffer.read()), save=False)
                     profile.save()
 
+            except StudentProfile.DoesNotExist:
+                logger.warning("U përpoq të regjistrohesha pa barkod: %s", barcode)
+                messages.error(request, "Barcode i pavlefshëm.")
+                return render(request, "register.html", {"form": form})
+
             except Exception as e:
                 logger.error("Registration failed for barcode %s: %s", barcode, str(e))
                 messages.error(request, "Ndodhi një gabim gjatë regjistrimit. Provo përsëri.")
@@ -141,7 +140,6 @@ def register_student(request):
     else:
         form = StudentRegisterForm()
     return render(request, "register.html", {"form": form})
-
 
 # ---------------------------------------------------------------------------
 # Logout
