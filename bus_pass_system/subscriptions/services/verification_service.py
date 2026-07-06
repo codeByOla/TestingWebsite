@@ -133,6 +133,9 @@ def verify_token(
                     if past_student.is_revoked:
                         result     = "REVOKED"
                         sub_result = "REVOKED"
+                        student = past_student
+                        subscription = past_sub
+                        university = getattr(past_student, 'university', None)
                     elif past_sub.expiry_date < today:
                         result     = "INVALID"
                         sub_result = "ALREADY_USED_EXPIRED"
